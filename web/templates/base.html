@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+{% block title %}<title>{{ title|default('NONE') }}</title>{% endblock title %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap.min.css')}}">
+<script src="{{ url_for('static', filename='jquery.js') }}"></script>
+{% block head %}
+{% endblock head %}
+</head>
+<body>
+<div class="wrapper">
+    <div id="sidebar">
+        {% block side %}{% endblock side %}
+    </div>
+    <div id="content">
+        {% block content %}{% endblock content %}
+    </div>
+</div>
+<div id="footer">
+    {% block footer %}{% endblock footer %}
+</div>
+</body>
+</html>

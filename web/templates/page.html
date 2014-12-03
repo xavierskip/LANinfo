@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
+<script src="{{ url_for('static', filename='main.js')}}"></script>
+{% endblock head %}
+{% block side %}
+<header id="banner" class="center"><a href="{{ url_for('index') }}">HOME</a></header>
+<nav class="menu">
+    <ul>
+        <li><a href="{{ url_for('detail') }}">详细</a></li>
+        <li><a href="{{ url_for('tools') }}">工具</a></li>
+        <li><a href="{{ url_for('about') }}">关于</a></li>
+        {% if session.logged_in %}
+        <li><span class="light">已登录</span>/<a href="{{ url_for('logout') }}">退出</a></li>
+        {% else %}
+        <li><a href="{{ url_for('login') }}">登录</a></li>
+        {% endif %}
+    </ul>   
+</nav>
+{% endblock side %}
+{% block footer %}
+<p class="copyright">COPYRIGHT &copy; 2014 · ALL RIGHTS RESERVED · MADE BY SKIP
+<a href="#" id="totop" class="light">BACK TO TOP</a>
+</p>
+<p class="end center">{{ request.remote_addr }}</p>
+{% endblock footer %}

@@ -1,0 +1,11 @@
+{% extends "page.html" %}
+{% block content %}
+<p class="center">IP address of the rest: {{used}}/{{unused}}</p>
+<ul class="iplist">
+    {% for item in info %}
+        <li class="inlineb center {% if item.mac %}open{% endif %}">
+            <a href="{{ url_for('userip',ip=item.ip) }}" >{{item.ip}}</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock content %}

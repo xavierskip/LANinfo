@@ -1,0 +1,72 @@
+{% extends "page.html" %}
+{% block content %}
+<div class="row">
+    <div class="left">&lt;&lt;<a href="/ip/{{lastip}}">{{lastip}}</a></div>
+    <div class="right"><a href="/ip/{{nextip}}">{{nextip}}</a>&gt;&gt;</div>
+</div>
+<form method="post" action="{{ url_for('info') }}">
+    <table id="single">
+        <thead>
+            <tr>
+                <th>ip</th>
+                <th>mac</th>
+                <th>name</th>
+                <th>comment</th>
+                <th>time</th>
+                <th>last date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                <input type="text" name="ip" value="{{ip}}" readonly class="clean">
+                </td>
+                <td>
+                <input type="text" name="mac" value="{{mac}}" readonly class="clean">
+                </td>
+                <td>
+                <input type="text" name="name" value="{{name}}" autocomplete="off">   
+                </td>
+                <td>
+                <input type="text" name="comment" value="{{comment}}" autocomplete="off">
+                </td>
+                <td>
+                <input type="text" name="time" value="{{time}}" readonly class="clean">
+                </td>
+                <td>
+                <input type="text" name="last" value="{{last}}" readonly class="clean">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="提交" class="btn btn-success right">
+</form>
+<form method="post" action="{{ url_for('clear') }}">
+        <input type="text" name="ip" value="{{ip}}" readonly style="display:none">
+        <input type="submit" value="清除" class="btn btn-danger left" id="clear">
+</form>
+{% endblock content %}
+{% block footer %}
+<script type="text/javascript">
+$(function() {
+    $(document).keydown(function(e) {
+        var url = false;
+        if (e.which == 39 || e.which == 75) { // right arrow and k  to previous  
+            url = $('.row .right a').attr('href');
+        } 
+        else if (e.which == 37 || e.which == 74) { // left arrow and j to next
+            url = $('.row .left a').attr('href');
+        }
+        if (url) {
+            window.location = url;
+        }
+    });
+    $('form input').keydown(e.stopPropagation();})
+    $('#clear').click(function(event){
+        if(!confirm('删除掉这个IP地址上MAC地址和注册日期吗？')){
+            event.preventDefault();
+        }
+    });
+})
+</script>
+{% endblock footer %}

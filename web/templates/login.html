@@ -1,0 +1,35 @@
+<!DOCTYPE HTMl>
+<html>
+<head>
+    <title>>:登录</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='login.css') }}">
+</head>
+<body>
+    <header><a href="/">LOGO</a></header>
+    <div id="login_box">
+        <div id="login_header">
+            <h3>登录</h3>
+        </div>
+        <div id="login_body">
+            <form action="{{ url_for('login') }}" method="post">
+                <div class="left">
+                    <p>Username:</p>
+                    <input type="text" name="username" placeholder="username">
+                    <p>Password:</p>
+                    <input type="password" name="password" placeholder="password">
+                </div>
+                <div class="right">
+                    <input class="btn" type="submit" value="登录">
+                </div>
+                <input type="hidden" value="{{ next }}" name="next">
+            </form>
+        </div>
+    {% if error %}
+        <p><em class="error">{{ error }}</em></p>
+    {% endif %}
+    </div>
+
+<script type="text/javascript"></script>
+</body>
+</html>

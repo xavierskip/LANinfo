@@ -1,0 +1,19 @@
+{% extends "page.html" %}
+{% block content %}
+<div class="form-group">
+    <p>获取远程机器的MAC地址</p>
+    <label>Host:</label>
+    <input type="text" name="host" class="input" placeholder="IP address">
+    <input type="submit" value="get MAC" name="submit" id="getmac" class="btn btn-primary"/>
+    <p id="response"></p>
+</div>
+<div class="form-group">
+<p>更新本网段 <b>{{netname}}</b> 的网络地址信息</p>
+<form action="/update" method="GET">
+    <button id="update" class="btn btn-primary">UPDATE</button>  
+</form>  
+</div>
+
+
+{% endblock content %}
+{% block footer %}{% endblock footer %}

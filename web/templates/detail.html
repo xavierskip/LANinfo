@@ -1,0 +1,25 @@
+{% extends "page.html" %}
+{% block content %}
+<table id="detail" class="auto">
+    <thead>
+        <tr class="selectNone">
+            <th class="order-asc">ip</th>
+            <th>mac</th>
+            <th>name</th>
+            <th>comment</th>
+            <th class="order-asc">time</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in info %}
+        <tr id="{{item.ip}}">
+            <td><a href="{{ url_for('userip',ip=item.ip) }}">{{item.ip}}</a></td>
+            <td>{{item.mac}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.comment}}</td>
+            <td>{{item.time}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>  
+{% endblock content %}
