@@ -82,7 +82,7 @@ def tools():
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('readme.html')
 
 @app.route('/signin', methods=['GET','POST'])
 def login():

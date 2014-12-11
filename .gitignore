@@ -1,4 +1,4 @@
-data/*
+data/network.db
 config.ini
 
 # Byte-compiled / optimized / DLL files

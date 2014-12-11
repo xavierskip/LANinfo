@@ -1,0 +1,238 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #737373;
+    background-color: white;
+    margin: 10px 13px 10px 13px;
+}
+table {
+	margin: 10px 0 15px 0;
+	border-collapse: collapse;
+}
+td,th {	
+	border: 1px solid #ddd;
+	padding: 3px 10px;
+}
+th {
+	padding: 5px 10px;	
+}
+
+a {
+    color: #0069d6;
+}
+a:hover {
+    color: #0050a3;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+p {
+    margin-bottom: 9px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #404040;
+    line-height: 36px;
+}
+h1 {
+    margin-bottom: 18px;
+    font-size: 30px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+hr {
+    margin: 0 0 19px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family:georgia,serif;
+    font-style: italic;
+}
+blockquote:before {
+    content:"\201C";
+    font-size:40px;
+    margin-left:-10px;
+    font-family:georgia,serif;
+    color:#eee;
+}
+blockquote p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+    background-color: #fee9cc;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 1px 3px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #d9d9d9;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+pre code {
+    background-color: #fff;
+    color:#737373;
+    font-size: 11px;
+    padding: 0;
+}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:10px auto;
+    }
+}
+@media print {
+	body,code,pre code,h1,h2,h3,h4,h5,h6 {
+		color: black;
+	}
+	table, pre {
+		page-break-inside: avoid;
+	}
+}
+</style>
+<title>介绍</title>
+
+</head>
+<body>
+<h1>Lan_info</h1>
+
+<h3>介绍</h3>
+
+<p>本工具通过扫描网段内机器的信息，存储到 sqlite数据库中，并提供 web服务来管理信息。</p>
+
+<p>web服务依赖<a href="http://flask.pocoo.org">Flask</a></p>
+
+<h3>结构与目录</h3>
+
+<pre><code>.
+├── data
+│   ├── schema.sql
+│   └── network.db
+├── scanner
+│   ├── ipmac.py
+│   ├── scan.py
+├── web
+│   ├── static\
+│   ├── templates\
+│   ├── view.py
+│   └── web.conf
+├── config.ini
+├── db.py
+├── run.py
+├── runserver.py
+├── do.bat
+└── backupDB.bat
+</code></pre>
+
+<ul>
+<li><code>scanner/</code> - 扫描网段内机器的信息</li>
+<li><code>data/</code>- 存放数据文件和扫描log</li>
+<li><code>web/</code> - 提供web服务,依赖<a href="http://flask.pocoo.org">Flask</a></li>
+<li><p><code>config.ini</code> - 配置文件</p>
+
+<p>  [scan]<br/>
+  <strong>dest</strong>    扫描的目标网段<br/>
+  <strong>netname</strong> 自动生成的网段名称<br/>
+  [db]<br/>
+  <strong>path</strong>    数据库文件的相对路径<br/>
+  <strong>schema</strong>  数据库表结构文件<br/>
+  <strong>abspath</strong> 自动生成的数据库绝对路径</p></li>
+<li><p><code>db.py</code> - 数据库操作模块</p></li>
+<li><code>run.py</code>- 扫描网段并存储信息</li>
+<li><code>runserver.py</code>- 启动http服务，本地测试。</li>
+<li><code>do.bat</code>- windows下的定时执行脚本</li>
+<li><code>backupDB.bat</code> - windows下的计划任务执行脚本</li>
+<li><code>data/schema.sql</code>- 数据库表结构</li>
+</ul>
+
+
+<h3>使用方式</h3>
+
+<ol>
+<li><p>根目录下面创建<code>config.ini</code>文件，配置如下:</p>
+
+<p> [scan]<br/>
+ dest = 192.168.1.1/24</p>
+
+<p> [db]<br/>
+ path = data/network.db <br/>
+ schema = data/schema.sql</p></li>
+<li><p><code>python run.py</code> 进行第一次抓取，并初始化数据库.</p></li>
+<li><p><code>python runserver.py</code> 启动服务</p></li>
+</ol>
+
+
+<h3>注意事项</h3>
+
+<ul>
+<li><p>需手动将 windows下的定时执行脚本添加到windows计划任务中</p></li>
+<li><p>本抓取工具在 *nix平台上获取远程mac地址是通过系统shell<code>arp</code>命令获取的，可能没有 win平台上获取远程MAC地址完整。</p></li>
+<li><p>本工具是多线程抓取的，没有对线程数进行限制，如果线程太多会造成错误。*nix下通过<code>ulimit -a</code>查看限制。<code>ulimit -n [num]</code>对打开文件数量上限进行修改，<code>ulimit -u [num]</code>对用户最大线程数进行修改。</p></li>
+</ul>
+
+
+<p>以上都是需要改进的地方</p>
+</body>
+</html>
