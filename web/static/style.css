@@ -48,7 +48,7 @@ a:hover{text-decoration: none;}
 }
 /* content */
 #content {
-    margin: 23px 0;
+    margin: 3px 0;
     padding: 7px 32px;
 }
 /* box */
@@ -168,9 +168,9 @@ a:hover{text-decoration: none;}
     margin: 0 auto;
 }
 .end{
-    font-size: 5px;
+    font-size: 9px;
     margin: 0 auto;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.1em;
 }
 #totop{
     position: absolute;
@@ -179,6 +179,8 @@ a:hover{text-decoration: none;}
 /* colors */
 .light{color:#8c919b;}
 .open{background-color: #A9E0A0;}
+.current{background-color: #016401;}
+.current a{color: #A9E0A0;}
 /* position: */
 .center{text-align: center;}
 .right{text-align: right;}
