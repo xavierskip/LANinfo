@@ -1,13 +1,15 @@
 {% extends "page.html" %}
 {% block content %}
+{% set frequency={0:'活跃',1:'使用',2:'占用',3:'离线',4:'废弃',5:'空闲'} %}
 <table id="detail" class="auto">
     <thead>
         <tr class="selectNone">
-            <th class="order-asc">ip</th>
-            <th>mac</th>
-            <th>name</th>
-            <th>comment</th>
-            <th class="order-asc">time</th>
+            <th id="ipKey" class="order-asc">IP</th>
+            <th id="macKey">MAC</th>
+            <th id="nameKey">Name</th>
+            <th id="commentKey">Comment</th>
+            <th id="registKey" class="order-asc">Register time</th>
+            <th id="aliveKey" class="order-asc">online</th>
         </tr>
     </thead>
     <tbody>
@@ -18,8 +20,10 @@
             <td>{{item.name}}</td>
             <td>{{item.comment}}</td>
             <td>{{item.time}}</td>
+            <td class="{{item.lastdate}}">{{frequency[item.lastdate]}}</td>
         </tr>
         {% endfor %}
     </tbody>
-</table>  
+</table>
 {% endblock content %}
+{% block script %}<script src="{{ url_for('static', filename='sort.js')}}"></script>{% endblock script %}

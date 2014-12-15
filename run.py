@@ -47,7 +47,7 @@ def get_date():
 
 def main():
     scanner = Scan(config.get('scan','dest'))
-    config.set('scan','netname',scanner.netname)
+    config.set('db','netname',scanner.netname)
     try:
         db = database(config.get('db','path'))
     except OperationalError, e:
@@ -55,7 +55,7 @@ def main():
         os.makedirs('/'.join(config.get('db','path').split('/')[:-1]))
         db = database(config.get('db','path'))
         schame = config.get('db','schema')
-        tablename = config.get('scan','netname')
+        tablename = config.get('db','netname')
         db.initTable(schame,tablename,scanner.iplist)
     # scan start
     start = time.time()

@@ -2,10 +2,14 @@
 # -*- coding:utf-8 -*-
 from web import app
 from flask import g, request, render_template, abort, session, redirect, url_for,make_response
+#
 from db import database
 from scanner import win_mac, Scan, ip2int, int2ip
-from run import saveto, config
-import logging
+from run import saveto,config
+# import logging
+import models
+
+SQL = models.SQL(config.get('db','netname'))
 
 from hashlib import sha256
 def encrypt_password(password, salt=None):
@@ -41,44 +45,37 @@ def teardown_request(exception):
 # pages
 @app.route('/')
 def index():
-    sql = "SELECT `ip`,`mac` FROM `%s`  ORDER BY `rowid` ASC" % config.get('scan','netname')
-    sql_ip = 'select count(ip) from `%s`' % config.get('scan','netname')
-    sql_mac = 'select count(mac) from `%s`' % config.get('scan','netname')
-    r = g.db.cur.execute(sql)
+    r = g.db.cur.execute(SQL.IP_MAC)
     if r:
         info = []
         for row in g.db.cur.fetchall():
             # clear the None value
             row = map(lambda x: x if x else '', row)
             info.append(dict(ip=row[0], mac=row[1]))
-        unused = g.db.cur.execute(sql_ip).fetchone()[0]
-        used = g.db.cur.execute(sql_mac).fetchone()[0]
-        return render_template('index.html', info=info, title=config.get('scan','netname'), used=used, unused=unused)
+        unused = g.db.cur.execute(SQL.count_IP).fetchone()[0]
+        used   = g.db.cur.execute(SQL.count_MAC).fetchone()[0]
+        return render_template('index.html', info=info, title=SQL.tableName, used=used, unused=unused)
     else:
         return redirect(url_for('about'))
 
 @app.route('/detail')
 @authorize
 def detail():
-    sql = "SELECT `rowid`,* FROM `%s`  ORDER BY `rowid` ASC" % config.get('scan','netname')
-    r = g.db.cur.execute(sql)
+    r = g.db.cur.execute(SQL.all_Fields)
     if r:
         info = []
         for row in g.db.cur.fetchall():
             # clear the None value
             row = map(lambda x: x if x else '', row)
-            info.append(dict(num=row[0], ip=row[1], mac=row[2], name=row[3], comment=row[4], time=row[5]))
-        sql_ip = 'select count(ip) from `%s`' % config.get('scan','netname')
-        sql_mac = 'select count(mac) from `%s`' % config.get('scan','netname')
-        unused = g.db.cur.execute(sql_ip).fetchone()[0]
-        used = g.db.cur.execute(sql_mac).fetchone()[0]
-        return render_template('detail.html', info=info, title=config.get('scan','netname'), used=used, unused=unused)
+            lastdate = models.frequency(row[6])
+            info.append(dict(num=row[0], ip=row[1], mac=row[2], name=row[3], comment=row[4], time=row[5], lastdate=lastdate))
+        return render_template('detail.html', info=info, title=SQL.tableName)
     else:
         return redirect(url_for('about'))
 
 @app.route('/tools')
 def tools():
-    return render_template('tools.html',title="tools",netname=config.get('scan','netname'))
+    return render_template('tools.html',title="tools",netname=SQL.tableName)
 
 @app.route('/about')
 def about():
@@ -107,19 +104,29 @@ def logout():
 @app.route('/ip/<ip>')
 @authorize
 def userip(ip):
-    intip = ip2int(ip)
-    lastip = int2ip(intip-1)
-    nextip = int2ip(intip+1)
-    sql = "SELECT * FROM `%s` WHERE `ip` = ?" % config.get('scan','netname')
-    r = g.db.cur.execute(sql, (ip,)).fetchone()
-    if r:
-        ip, mac, name, comment, time, last = map(lambda x: x if x else '', r)
-        return render_template('table.html', ip=ip, mac=mac, name=name, comment=comment, time=time, last=last, lastip=lastip, nextip=nextip, title=ip)
+    try:
+        int_ip = ip2int(ip)
+    except Exception, e:
+        return "illegal IP address"
+    s = Scan(config.get('scan','dest'))
+    if s.net_id<int_ip<s.broadcast:
+        previous = 0
+        next = 0
+        if int_ip-1 != s.net_id:
+            previous = int2ip(int_ip-1)
+        if int_ip+1 != s.broadcast:
+            next = int2ip(int_ip+1)
+        r = g.db.cur.execute(SQL.select_IP, (ip,)).fetchone()
+        if r:
+            ip, mac, name, comment, time, lastdate = map(lambda x: x if x else '', r)
+            item = {'ip':ip,'mac':mac,'name':name,'comment':comment,'time':time,'lastdate':lastdate}
+            return render_template('single.html', item=item, previous=previous, next=next, ip=ip, title=ip)
+        else:
+            return "not fond!"
     else:
-        return 'not fond!'
+        return "IP out of range!"
 
 # API
-# models
 @app.route('/get', methods=['GET'])
 def getmac():
     host = str(request.args.get('host', ''))
@@ -144,20 +151,17 @@ def update():
 @app.route('/info', methods=['POST'])
 @authorize
 def info():
-    sql = "UPDATE `%s` SET name=?,comment=? WHERE ip = ?" % config.get('scan','netname')
     name = request.form['name']
     comment = request.form['comment']
     ip = request.form['ip']
-    fields = map(lambda x: x if x else '', (name, comment, ip))
-    g.db.cur.execute(sql, fields)
+    g.db.cur.execute(SQL.update_INFO, (name, comment, ip))
     g.db.commit()
     return redirect(url_for('userip', ip=ip))
 
 @app.route('/clear', methods=['POST'])
 @authorize
 def clear():
-    sql = "UPDATE `%s` SET mac=Null,time=Null WHERE ip = ?" % config.get('scan','netname')
     ip = request.form['ip']
-    g.db.cur.execute(sql, (ip,))
+    g.db.cur.execute(SQL.del_INFO, (ip,))
     g.db.commit()
     return redirect(url_for('userip', ip=ip))

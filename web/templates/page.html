@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
-<script src="{{ url_for('static', filename='main.js')}}"></script>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<script src="{{ url_for('static', filename='jquery.js') }}"></script>
 {% endblock head %}
 {% block side %}
 <header id="banner" class="center"><a href="{{ url_for('index') }}">HOME</a></header>
@@ -20,4 +20,12 @@
 {% endblock side %}
 {% block footer %}
 <p class="copyright">COPYRIGHT &copy; 2014 · ALL RIGHTS RESERVED · MADE BY SKIP <a href="#" id="totop" class="light">BACK TO TOP</a></p>
+<script type="text/javascript">
+$(function() {
+// to the animate 
+$('#totop').click(function(){
+    $("html, body").animate({scrollTop: 0}, 230);
+});
+})
+</script>
 {% endblock footer %}

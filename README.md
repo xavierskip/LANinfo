@@ -34,11 +34,11 @@ web服务依赖[Flask][f]
 * `config.ini` - 配置文件
 
     [scan]  
-    **dest**    扫描的目标网段  
-    **netname** 自动生成的网段名称  
+    **dest**    扫描的目标网段   
     [db]  
     **path**    数据库文件的相对路径  
     **schema**  数据库表结构文件  
+    **netname** 自动生成的网段名称,也是数据库表名称
     **abspath** 自动生成的数据库绝对路径  
 
 * `db.py` - 数据库操作模块

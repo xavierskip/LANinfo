@@ -13,7 +13,24 @@
     <button id="update" class="btn btn-primary">UPDATE</button>  
 </form>  
 </div>
-
-
 {% endblock content %}
 {% block footer %}{% endblock footer %}
+{% block script %}
+<script type="text/javascript">
+$(function() {
+// tools
+var host = $("input[name='host']");
+var msg = $('#response');
+$('#getmac').click(function(){
+    msg.text("");
+    $.get("/get",{host:host.val()})
+        .done(function(r){
+            msg.text(r)
+        })
+        .fail(function(r){
+            msg.text("fail!")
+        })
+});
+})
+</script>
+{% endblock script %}
