@@ -64,7 +64,6 @@ function alive_desc(a,b){
         return r;
     };
 };
-//
 function sortColumn(index,ascCmp,descCmp){
     var toggle = 0;// 0:desc 1:asc
     $('#detail thead th').eq(index).click(function(){
@@ -75,7 +74,6 @@ function sortColumn(index,ascCmp,descCmp){
         toggle = toggle^1;//reversal
     });
 };
-//
 Element.prototype.tdValue = function(k){return this.querySelectorAll('td')[thead[k]].innerText};
 Element.prototype.tdClass = function(k){return this.querySelectorAll('td')[thead[k]].className};
 function reset(){
