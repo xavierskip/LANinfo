@@ -52,9 +52,9 @@ def index():
             # clear the None value
             row = map(lambda x: x if x else '', row)
             info.append(dict(ip=row[0], mac=row[1]))
-        unused = g.db.cur.execute(SQL.count_IP).fetchone()[0]
-        used   = g.db.cur.execute(SQL.count_MAC).fetchone()[0]
-        return render_template('index.html', info=info, title=SQL.tableName, used=used, unused=unused)
+        amount = g.db.cur.execute(SQL.count_IP).fetchone()[0]
+        taken  = g.db.cur.execute(SQL.count_MAC).fetchone()[0]
+        return render_template('index.html', info=info, title=SQL.tableName, taken=taken, amount=amount)
     else:
         return redirect(url_for('about'))
 

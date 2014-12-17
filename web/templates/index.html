@@ -1,7 +1,7 @@
 {% extends "page.html" %}
 {% block content %}
 <p class="end center">{{ request.remote_addr }}</p>
-<p class="center">IP address of the rest: {{used}}/{{unused}}</p>
+<p class="center">IP address be taken: {{taken}}/{{amount}}</p>
 <ul class="iplist">
     {% for item in info %}
         <li class="inlineb center {% if request.remote_addr == item.ip%}current{% endif %}{% if item.mac %}open{% endif %}">
