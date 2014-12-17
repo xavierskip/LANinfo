@@ -156,7 +156,7 @@ sup {
 
 </head>
 <body>
-<h1>Lan_info</h1>
+<h1>LANinfo</h1>
 
 <h3>介绍</h3>
 
@@ -193,11 +193,11 @@ sup {
 <li><p><code>config.ini</code> - 配置文件</p>
 
 <p>  [scan]<br/>
-  <strong>dest</strong>    扫描的目标网段<br/>
-  <strong>netname</strong> 自动生成的网段名称<br/>
+  <strong>dest</strong>    扫描的目标网段 <br/>
   [db]<br/>
   <strong>path</strong>    数据库文件的相对路径<br/>
   <strong>schema</strong>  数据库表结构文件<br/>
+  <strong>netname</strong> 自动生成的网段名称,也是数据库表名称
   <strong>abspath</strong> 自动生成的数据库绝对路径</p></li>
 <li><p><code>db.py</code> - 数据库操作模块</p></li>
 <li><code>run.py</code>- 扫描网段并存储信息</li>
@@ -229,10 +229,10 @@ sup {
 <ul>
 <li><p>需手动将 windows下的定时执行脚本添加到windows计划任务中</p></li>
 <li><p>本抓取工具在 *nix平台上获取远程mac地址是通过系统shell<code>arp</code>命令获取的，可能没有 win平台上获取远程MAC地址完整。</p></li>
-<li><p>本工具是多线程抓取的，没有对线程数进行限制，如果线程太多会造成错误。*nix下通过<code>ulimit -a</code>查看限制。<code>ulimit -n [num]</code>对打开文件数量上限进行修改，<code>ulimit -u [num]</code>对用户最大线程数进行修改。</p></li>
+<li><p>本工具是多线程抓取的，没有对线程数进行限制，如果线程太多会造成错误。*nix下通过<code>ulimit -a</code>查看限制。<code>ulimit -n [num]</code>对打开文件数量上限进行修改，<code>ulimit -u [num]</code>对用户最大线程数进行修改。</p>
+
+<p>  以上都是需要改进的地方</p></li>
 </ul>
 
-
-<p>以上都是需要改进的地方</p>
 </body>
 </html>
