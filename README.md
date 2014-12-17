@@ -1,4 +1,4 @@
-Lan_info
+LANinfo
 =======
 
 ### 介绍 ###
