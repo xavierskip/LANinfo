@@ -4,7 +4,7 @@
 <p class="center">IP address be taken: {{taken}}/{{amount}}</p>
 <ul class="iplist">
     {% for item in info %}
-        <li class="inlineb center {% if request.remote_addr == item.ip%}current{% endif %}{% if item.mac %}open{% endif %}">
+        <li class="inlineb center {% if request.remote_addr == item.ip%}current{% endif %} {% if item.mac %}open{% endif %}">
             <a href="{{ url_for('userip',ip=item.ip) }}" >{{item.ip}}</a>
         </li>
     {% endfor %}
