@@ -75,6 +75,3 @@ web服务依赖[Flask][f]
 
 [f]: http://flask.pocoo.org
 
-### screenshot ###
-![](http://ww4.sinaimg.cn/large/6afb06cdgw1eq0j3u296mj20ya0vp7l5.jpg)
-
