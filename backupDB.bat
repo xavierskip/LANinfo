@@ -2,5 +2,5 @@
 set base_dir=%~dp0  
 %base_dir:~0,2%
 pushd %base_dir%
-copy data/network.db data/network.db.backup
+copy data/network.db data/network.db.backup /y
 popd
