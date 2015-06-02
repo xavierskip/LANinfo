@@ -3,3 +3,5 @@ config.ini
 
 *.py[cod]
 .DS_Store
+
+*.backup

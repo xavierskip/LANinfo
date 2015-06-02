@@ -129,12 +129,21 @@ def userip(ip):
 # API
 @app.route('/get', methods=['GET'])
 def getmac():
-    host = str(request.args.get('host', ''))
-    try:
-        macaddr = win_mac(host)
-    except Exception, e:
-        return str(e)
-    return macaddr
+    mac = str(request.args.get('mac'))
+    if mac:
+        print mac,'mac'
+        r = g.db.cur.execute(SQL.select_MAC, (mac,)).fetchone()
+        if r:
+            return ','.join(map(lambda x: str(x) if x else '', r))
+        else:
+            return "MAC not found"
+    else:    
+        host = str(request.args.get('host'))
+        try:
+            macaddr = win_mac(host)
+        except Exception, e:
+            return str(e)
+        return macaddr
 
 @app.route('/update', methods=['GET'])
 def update():
