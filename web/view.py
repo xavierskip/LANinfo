@@ -129,9 +129,9 @@ def userip(ip):
 # API
 @app.route('/get', methods=['GET'])
 def getmac():
-    mac = str(request.args.get('mac'))
+    mac = request.args.get('mac')
     if mac:
-        print mac,'mac'
+        mac =  mac.encode()
         r = g.db.cur.execute(SQL.select_MAC, (mac,)).fetchone()
         if r:
             return ','.join(map(lambda x: str(x) if x else '', r))
