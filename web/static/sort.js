@@ -50,7 +50,7 @@ var date_desc = function(a,b){
 function alive_asc(a,b){
     var r = parseInt(a.tdClass('aliveKey')) - parseInt(b.tdClass('aliveKey'));
     if(r==0){
-        return date_asc(a,b)
+        return date_desc(a,b)
     }else{
         return r;
     };
@@ -65,6 +65,7 @@ function alive_desc(a,b){
     };
 };
 function sortColumn(index,ascCmp,descCmp){
+    // desc first then asc 
     var toggle = 0;// 0:desc 1:asc
     $('#detail thead th').eq(index).click(function(){
         var cmp = toggle ? ascCmp :descCmp;

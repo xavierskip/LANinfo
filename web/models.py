@@ -18,8 +18,10 @@ class SQL:
         pass
 
 def frequency(str_time):
-    """ return 0:'活跃',1:'使用',2:'占用',3:'离线',4:'废弃',5:'空闲' """
-    if str_time == '': return 5
+    """ return 0:'活跃', 1:'使用', 2:'占用', 3:'离线', 4:'废弃', 5:'回收', 6:'空闲'
+    output for templates `detail.html`
+    """
+    if str_time == '': return 6
     recent = time.mktime(time.strptime(str_time,'%Y-%m-%d %H:%M:%S'))
     now = time.mktime(time.localtime())
     last = now - recent
@@ -33,6 +35,8 @@ def frequency(str_time):
         return 3
     elif last<15552000:#half year
         return 4
+    else:
+        return 5
 
 
 
