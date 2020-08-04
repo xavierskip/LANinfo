@@ -1,4 +1,5 @@
 data/network.db
+web/web.conf
 config.ini
 
 *.py[cod]
