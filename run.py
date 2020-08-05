@@ -4,12 +4,22 @@ import ConfigParser
 import time
 import os
 from sqlite3 import OperationalError
+from mail import Mail
+
 here = os.path.dirname(os.path.abspath(__file__))
 config = ConfigParser.ConfigParser()
 config.read(os.path.join(here,'config.ini'))
 dbpath = config.get('db','path')
 # cover the default abspath config
 config.set('db','abspath',os.path.join(here,dbpath))
+# simple send mail
+u = config.get('mail','username')
+p = config.get('mail','password')
+smtp = config.get('mail', 'smtp')
+mail = Mail(smtp, u, p)
+Subject = config.get('mail', 'subject')
+Me = config.get('mail', 'from')
+You = config.get('mail', 'to')
 
 def saveto(scanner,db):
     cur = db.cur
@@ -32,11 +42,15 @@ def saveto(scanner,db):
             else:
                 cur.execute(delmac,(r[0],))
                 cur.execute(setMAC,(mac,get_date(),ip))
-                print "[update] %s from %s to %s " %(mac,r[0],ip)
+                message = "[update] %s from %s to %s " %(mac,r[0],ip)
+                print(message)
+                mail.send(Me, You, Subject, message)
                 #logging.debug("[update] %s from %s to %s " %(mac,r[0],ip))
         else:
             cur.execute(setMAC,(mac,get_date(),ip))
-            print "[set] %s to %s " %(mac,ip)
+            message = "[set] %s to %s " %(mac,ip)
+            print(message)
+            mail.send(Me, You, Subject, message)
             #logging.debug("[set] %s to %s " %(mac,ip))
     # sql = "INSERT or REPLACE INTO `%s` (ip,mac) VALUES(?,?)" %scanner.netname
     # db.cur.executemany(sql,info)
