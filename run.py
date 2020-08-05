@@ -1,3 +1,4 @@
+from __future__ import print_function
 from scanner import Scan
 from db import database
 import ConfigParser
@@ -75,7 +76,7 @@ def main():
     start = time.time()
     scanner.do()
     saveto(scanner,db) # save to the database
-    print("[time] %1.2fs" %(time.time() - start))
+    print("[time] %1.2fs" %(time.time() - start), end="  ")
     with open('config.ini','wb') as c:
         config.write(c)
 
