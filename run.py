@@ -25,6 +25,7 @@ You = config.get('mail', 'to')
 def saveto(scanner,db):
     cur = db.cur
     # sql
+    SELECTALLFROMIP = "SELECT * FROM `%s` WHERE ip = ?" %scanner.netname
     macTheIP = "SELECT ip FROM `%s` WHERE mac = ?" %scanner.netname
     delmac = "UPDATE `%s` SET mac=Null,time=Null WHERE ip = ?" %scanner.netname
     setMAC = "UPDATE `%s` SET mac=?,time=? WHERE ip = ?" %scanner.netname
@@ -48,8 +49,9 @@ def saveto(scanner,db):
                 mail.send(Me, You, Subject, message)
                 #logging.debug("[update] %s from %s to %s " %(mac,r[0],ip))
         else:
+            r = cur.execute(SELECTALLFROMIP, (ip,)).fetchone()
             cur.execute(setMAC,(mac,get_date(),ip))
-            message = "[set] %s to %s " %(mac,ip)
+            message = "[set] %s to (\n%s\n)" %(mac,'\n'.join(list(r)))
             print(message)
             mail.send(Me, You, Subject, message)
             #logging.debug("[set] %s to %s " %(mac,ip))
