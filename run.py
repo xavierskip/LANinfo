@@ -35,6 +35,7 @@ def saveto(scanner,db):
     if not r.fetchone():
         # init database and create table
         db.initTable(config.get('db','schema'),scanner.netname,scanner.iplist)
+    message = ""
     for i in scanner.info:
         ip,mac = i
         r = cur.execute(macTheIP,(mac,)).fetchone()
@@ -44,19 +45,19 @@ def saveto(scanner,db):
             else:
                 cur.execute(delmac,(r[0],))
                 cur.execute(setMAC,(mac,get_date(),ip))
-                message = "[update] %s from %s to %s " %(mac,r[0],ip)
-                print(message)
-                mail.send(Me, You, Subject, message)
+                message += "[update] %s from %s to %s " %(mac,r[0],ip)
                 #logging.debug("[update] %s from %s to %s " %(mac,r[0],ip))
         else:
             r = cur.execute(SELECTALLFROMIP, (ip,)).fetchone()
             cur.execute(setMAC,(mac,get_date(),ip))
-            message = "[set] %s to (\n%s\n)" %(mac,'\n'.join(list(r)))
-            print(message)
-            mail.send(Me, You, Subject, message)
+            message += "[set] %s to %s\n%s\n%s\n%s\n%s\n%s" %(
+                mac, r[0], r[1], r[2], r[3], r[4], r[5])
             #logging.debug("[set] %s to %s " %(mac,ip))
     # sql = "INSERT or REPLACE INTO `%s` (ip,mac) VALUES(?,?)" %scanner.netname
     # db.cur.executemany(sql,info)
+    if message != "":
+        print(message.encode("utf-8"))
+        mail.send(Me, You, Subject, message.encode("utf-8"))
     db.commit()
 
 def get_date():
