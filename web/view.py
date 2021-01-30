@@ -8,6 +8,7 @@ from scanner import win_mac, Scan, ip2int, int2ip
 from run import saveto,config
 # import logging
 import models
+import re
 
 SQL = models.SQL(config.get('db','netname'))
 
@@ -44,6 +45,7 @@ def teardown_request(exception):
 
 # pages
 @app.route('/')
+@authorize
 def index():
     r = g.db.cur.execute(SQL.IP_MAC)
     if r:
@@ -74,10 +76,12 @@ def detail():
         return redirect(url_for('about'))
 
 @app.route('/tools')
+@authorize
 def tools():
     return render_template('tools.html',title="tools",netname=SQL.tableName)
 
 @app.route('/about')
+@authorize
 def about():
     return render_template('readme.html')
 
@@ -128,6 +132,7 @@ def userip(ip):
 
 # API
 @app.route('/get', methods=['GET'])
+@authorize
 def getmac():
     mac = request.args.get('mac')
     if mac:
@@ -146,6 +151,7 @@ def getmac():
         return macaddr
 
 @app.route('/update', methods=['GET'])
+@authorize
 def update():
     try:
         scanner = Scan(config.get('scan','dest'))
@@ -162,8 +168,14 @@ def update():
 def info():
     name = request.form['name']
     comment = request.form['comment']
+    mac = request.form['mac'].upper()
+    if not mac:
+        mac = None
+    else:
+        if not re.match("^([0-9A-F]{2}[-]){5}([0-9A-F]{2})$", mac):
+            return "unknow mac address"
     ip = request.form['ip']
-    g.db.cur.execute(SQL.update_INFO, (name, comment, ip))
+    g.db.cur.execute(SQL.update_INFO, (mac, name, comment, ip))
     g.db.commit()
     return redirect(url_for('userip', ip=ip))
 

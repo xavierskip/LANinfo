@@ -15,22 +15,30 @@
 <form method="post" action="{{ url_for('info') }}">
     <table id="single">
         <thead>
-            <tr>
-                <th>IP</th>
-                <th>MAC</th>
-                <th>name</th>
-                <th>comment</th>
-                <th>register</th>
-                <th>last time</th>
-            </tr>
         </thead>
         <tbody>
             <tr>
-                <td><input type="text" name="ip" value="{{item.ip}}" readonly class="clean"></td>
+                <th>IP</th>
+                <td><input type="text" name="ip" value="{{item.ip}}" readonly class="clean"></td>                
+            </tr>
+            <tr>
+                <th>MAC</th>
                 <td><input type="text" name="mac" value="{{item.mac}}" readonly class="clean"></td>
-                <td><input type="text" name="name" value="{{item.name}}" autocomplete="off">   </td>
-                <td><input type="text" name="comment" value="{{item.comment}}" autocomplete="off"></td>
+            </tr>
+            <tr>
+                <th>name</th>
+                <td><input type="text" name="name" value="{{item.name}}" autocomplete="off" size="45"></td>
+            </tr>
+            <tr>
+                <th>comment</th>
+                <td><input type="text" name="comment" value="{{item.comment}}" autocomplete="off" size="45"></td>
+            </tr>
+            <tr>
+                <th>register</th>
                 <td><input type="text" name="time" value="{{item.time}}" readonly class="clean"></td>
+            </tr>
+            <tr>
+                <th>last time</th>
                 <td><input type="text" name="last" value="{{item.lastdate}}" readonly class="clean"></td>
             </tr>
         </tbody>
@@ -65,5 +73,11 @@ $(function() {
         }
     });
 })
+var mac = document.querySelector("input[name=mac]");
+mac.onclick = function(){
+    if (mac.value == "") {
+        mac.readOnly = false;
+    }
+}
 </script>
 {% endblock script %}

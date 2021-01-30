@@ -11,7 +11,7 @@ class SQL:
         self.all_Fields  = "SELECT `rowid`,* FROM `%s` ORDER BY `rowid` ASC" % tablename
         self.select_IP   = "SELECT * FROM `%s` WHERE `ip` = ?" % tablename
         self.select_MAC  = "SELECT `ip`,`name`,`comment` FROM `%s` WHERE `mac` = ?" % tablename
-        self.update_INFO = "UPDATE `%s` SET name=?,comment=? WHERE ip = ?" % tablename
+        self.update_INFO = "UPDATE `%s` SET mac=?,name=?,comment=? WHERE ip = ?" % tablename
         self.del_INFO    = "UPDATE `%s` SET mac=Null,time=Null,lastdate=Null WHERE ip = ?" % tablename
 
     def model(self):
